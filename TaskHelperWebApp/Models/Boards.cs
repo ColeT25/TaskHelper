@@ -1,10 +1,18 @@
-﻿namespace TaskHelperWebApp;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace TaskHelperWebApp;
 
 public class Boards
 {
     public Guid ID { get; set; }
-    public Guid projectID { get; set; }
-    public string name { get; set; } = default!;
-    public string description { get; set; } = default!;
-    public string color { get; set; } = default!;
+    public Guid ProjectID { get; set; }
+    public string Name { get; set; } = default!;
+    public string Description { get; set; } = default!;
+    public string Color { get; set; } = default!;
+
+    [Display(Name = "Created Date")]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+    public DateTime CreatedDate { get; set; }
 }

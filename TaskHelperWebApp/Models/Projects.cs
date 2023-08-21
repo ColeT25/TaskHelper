@@ -1,8 +1,16 @@
-﻿namespace TaskHelperWebApp;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace TaskHelperWebApp;
 
 public class Projects
 {
     public Guid ID { get; set; } 
-    public string name { get; set; } = default!;
-    public string description { get; set; } = default!;
+    public string Name { get; set; } = default!;
+    public string Description { get; set; } = default!;
+
+    [Display(Name = "Created Date")]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+    public DateTime CreatedDate { get; set; }
 }

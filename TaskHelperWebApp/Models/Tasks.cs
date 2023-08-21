@@ -1,12 +1,19 @@
-﻿namespace TaskHelperWebApp;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace TaskHelperWebApp;
 
 public class Tasks
 {
     public Guid ID { get; set; }
-    public Guid boardID { get; set; }
-    public Guid projectID { get; set; }
-    public string name { get; set; } = default!;
-    public string description { get; set; } = default!;
-    public Guid? isSubtaskOf { get; set; }
-    public bool isComplete { get; set; } = false;
+    public Guid BoardID { get; set; }
+    public Guid ProjectID { get; set; }
+    public string Name { get; set; } = default!;
+    public string Description { get; set; } = default!;
+    public Guid? IsSubtaskOf { get; set; } public bool IsComplete { get; set; } = false;
+
+    [Display(Name = "Created Date")]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+    public DateTime CreatedDate { get; set; }
 }

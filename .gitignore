@@ -399,3 +399,8 @@ FodyWeavers.xsd
 
 # Other files added by Cole
 .vscode
+*.wal
+*.shm
+*.db
+*.db-wal
+*.db-shm

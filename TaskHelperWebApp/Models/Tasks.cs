@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TaskHelperWebApp;
 
@@ -22,4 +23,10 @@ public class Tasks
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
     public DateTime? CompletedDate { get; set; } = null;
+
+    [Required]
+    public virtual Boards Board { get; set; } = default!;
+
+    [Required]
+    public virtual Projects Project { get; set; } = default!;
 }

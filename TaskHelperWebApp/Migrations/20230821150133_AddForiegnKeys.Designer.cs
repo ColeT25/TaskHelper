@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskHelperWebApp.Data;
 
@@ -10,9 +11,11 @@ using TaskHelperWebApp.Data;
 namespace TaskHelperWebApp.Migrations
 {
     [DbContext(typeof(TaskContext))]
-    partial class TaskContextModelSnapshot : ModelSnapshot
+    [Migration("20230821150133_AddForiegnKeys")]
+    partial class AddForiegnKeys
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.10");
@@ -45,8 +48,6 @@ namespace TaskHelperWebApp.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("ProjectID");
 
                     b.ToTable("Boards");
                 });
@@ -115,17 +116,6 @@ namespace TaskHelperWebApp.Migrations
                     b.HasIndex("ProjectID");
 
                     b.ToTable("Tasks");
-                });
-
-            modelBuilder.Entity("TaskHelperWebApp.Boards", b =>
-                {
-                    b.HasOne("TaskHelperWebApp.Projects", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("TaskHelperWebApp.Tasks", b =>

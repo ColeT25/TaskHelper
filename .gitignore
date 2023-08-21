@@ -404,3 +404,5 @@ FodyWeavers.xsd
 *.db
 *.db-wal
 *.db-shm
+notes.txt
+

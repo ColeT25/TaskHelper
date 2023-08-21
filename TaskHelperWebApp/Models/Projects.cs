@@ -13,4 +13,9 @@ public class Projects
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
     public DateTime CreatedDate { get; set; }
+
+    [Display(Name = "Closed Date")]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+    public DateTime? ClosedDate { get; set; }= null;
 }

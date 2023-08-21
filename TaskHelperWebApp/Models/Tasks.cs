@@ -10,10 +10,16 @@ public class Tasks
     public Guid ProjectID { get; set; }
     public string Name { get; set; } = default!;
     public string Description { get; set; } = default!;
-    public Guid? IsSubtaskOf { get; set; } public bool IsComplete { get; set; } = false;
+    public Guid? IsSubtaskOf { get; set; } 
+    public bool IsComplete { get; set; } = false;
 
     [Display(Name = "Created Date")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
     public DateTime CreatedDate { get; set; }
+
+    [Display(Name = "Completed Date")]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+    public DateTime? CompletedDate { get; set; } = null;
 }

@@ -1,16 +1,15 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using TaskHelperWebApp.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.IsDevelopment()){
-    builder.Services.AddDbContext<TaskContext>(options =>
-        options.UseSqlite(builder.Configuration.GetConnectionString("DEVTaskContext") ?? throw new InvalidOperationException("Connection string 'DEVTaskContext' not found.")));
-    }
-else{
-    builder.Services.AddDbContext<TaskContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("TaskContext") ?? throw new InvalidOperationException("Connection string 'TaskContext' not found.")));
+    builder.Services.AddDbContext<TasksContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("TasksContext") ?? throw new InvalidOperationException("Connection string 'TasksContext' not found.")));
 }
-
+else if (builder.Environment.IsProduction()){
+    builder.Services.AddDbContext<TasksContext>(options =>
+    options.UseSqlServer(Environment.GetEnvironmentVariable("SQLCONNSTR_TaskHelperDB") ?? throw new InvalidOperationException("Connection String Could Not Be Retrieved From Azure Environment Variable for TasksContext")));
+}
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

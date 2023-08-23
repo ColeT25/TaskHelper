@@ -12,9 +12,9 @@ namespace TaskHelperWebApp.Controllers
 {
     public class TasksController : Controller
     {
-        private readonly TaskContext _context;
+        private readonly TasksContext _context;
 
-        public TasksController(TaskContext context)
+        public TasksController(TasksContext context)
         {
             _context = context;
         }
@@ -22,9 +22,8 @@ namespace TaskHelperWebApp.Controllers
         // GET: Tasks
         public async Task<IActionResult> Index()
         {
-              return _context.Tasks != null ? 
-                          View(await _context.Tasks.ToListAsync()) :
-                          Problem("Entity set 'TaskContext.Tasks'  is null.");
+            var tasksContext = _context.Tasks.Include(t => t.Board);
+            return View(await tasksContext.ToListAsync());
         }
 
         // GET: Tasks/Details/5
@@ -36,6 +35,7 @@ namespace TaskHelperWebApp.Controllers
             }
 
             var tasks = await _context.Tasks
+                .Include(t => t.Board)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (tasks == null)
             {
@@ -48,6 +48,7 @@ namespace TaskHelperWebApp.Controllers
         // GET: Tasks/Create
         public IActionResult Create()
         {
+            ViewData["BoardID"] = new SelectList(_context.Set<Boards>(), "ID", "ID");
             return View();
         }
 
@@ -56,7 +57,7 @@ namespace TaskHelperWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,BoardID,ProjectID,Name,Description,IsSubtaskOf,IsComplete,CreatedDate,CompletedDate")] Tasks tasks)
+        public async Task<IActionResult> Create([Bind("ID,BoardID,UserID,Name,Description,IsSubtaskOf,IsComplete,CreatedDate,CompletedDate")] Tasks tasks)
         {
             if (ModelState.IsValid)
             {
@@ -65,6 +66,7 @@ namespace TaskHelperWebApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["BoardID"] = new SelectList(_context.Set<Boards>(), "ID", "ID", tasks.BoardID);
             return View(tasks);
         }
 
@@ -81,6 +83,7 @@ namespace TaskHelperWebApp.Controllers
             {
                 return NotFound();
             }
+            ViewData["BoardID"] = new SelectList(_context.Set<Boards>(), "ID", "ID", tasks.BoardID);
             return View(tasks);
         }
 
@@ -89,7 +92,7 @@ namespace TaskHelperWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ID,BoardID,ProjectID,Name,Description,IsSubtaskOf,IsComplete,CreatedDate,CompletedDate")] Tasks tasks)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ID,BoardID,UserID,Name,Description,IsSubtaskOf,IsComplete,CreatedDate,CompletedDate")] Tasks tasks)
         {
             if (id != tasks.ID)
             {
@@ -116,6 +119,7 @@ namespace TaskHelperWebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["BoardID"] = new SelectList(_context.Set<Boards>(), "ID", "ID", tasks.BoardID);
             return View(tasks);
         }
 
@@ -128,6 +132,7 @@ namespace TaskHelperWebApp.Controllers
             }
 
             var tasks = await _context.Tasks
+                .Include(t => t.Board)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (tasks == null)
             {
@@ -144,7 +149,7 @@ namespace TaskHelperWebApp.Controllers
         {
             if (_context.Tasks == null)
             {
-                return Problem("Entity set 'TaskContext.Tasks'  is null.");
+                return Problem("Entity set 'TasksContext.Tasks'  is null.");
             }
             var tasks = await _context.Tasks.FindAsync(id);
             if (tasks != null)

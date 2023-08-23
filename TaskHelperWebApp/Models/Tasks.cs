@@ -8,7 +8,7 @@ public class Tasks
 {
     public Guid ID { get; set; }
     public Guid BoardID { get; set; }
-    public Guid ProjectID { get; set; }
+    public Guid UserID { get; set; }
     public string Name { get; set; } = default!;
     public string Description { get; set; } = default!;
     public Guid? IsSubtaskOf { get; set; } 
@@ -26,7 +26,4 @@ public class Tasks
 
     [Required]
     public virtual Boards Board { get; set; } = default!;
-
-    [Required]
-    public virtual Projects Project { get; set; } = default!;
 }

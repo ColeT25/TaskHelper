@@ -405,4 +405,5 @@ FodyWeavers.xsd
 *.db-wal
 *.db-shm
 notes.txt
-
+migrations
+appsettings.Development.json

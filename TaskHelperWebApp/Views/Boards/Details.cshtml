@@ -1,21 +1,14 @@
-@model TaskHelperWebApp.Boards
+@model TaskHelperWebApp.ViewModels.BoardsViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
 
 <div>
-    <h4>Boards</h4>
+    <h2>@Html.DisplayFor(model => model.Name)</h2>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+    <dl class="row">    
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
@@ -34,17 +27,22 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CreatedDate)
         </dd>
+        @{
+            if (Model.ClosedDate != null)
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ClosedDate)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ClosedDate)
+                </dd>
+            }
+        }
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ClosedDate)
+            @Html.DisplayNameFor(model => model.ProjectName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ClosedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Project)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Project.ID)
+            @Html.DisplayFor(model => model.ProjectName)
         </dd>
     </dl>
 </div>

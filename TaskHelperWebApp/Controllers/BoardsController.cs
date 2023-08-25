@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Build.Evaluation;
 using Microsoft.EntityFrameworkCore;
 using TaskHelperWebApp;
 using TaskHelperWebApp.Data;
 using TaskHelperWebApp.ViewModels;
 
 namespace TaskHelperWebApp.Controllers
+    //refactor to use services!!!!
 {
     public class BoardsController : Controller
     {
@@ -24,11 +27,21 @@ namespace TaskHelperWebApp.Controllers
         // GET: Boards
         public async Task<IActionResult> Index()
         {
-            var tasksContext = _context.Boards.Include(b => b.Project);
-            return View(await tasksContext.ToListAsync());
+            var activeBoards = await _context.Boards.Select(b => new BoardsViewModel
+            {
+                ID = b.ID,
+                Name = b.Name,
+                ProjectID = b.ProjectID,
+                Description = b.Description,
+                Color = b.Color,
+                CreatedDate = b.CreatedDate,
+                ClosedDate = b.ClosedDate,
+                ProjectName = b.Project.Name,
+            }).ToListAsync();
+            return View(activeBoards);
         }
 
-        // GET: Boards/Details/5
+        // GET: Boards/Details/id
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null || _context.Boards == null)
@@ -36,57 +49,64 @@ namespace TaskHelperWebApp.Controllers
                 return NotFound();
             }
 
-            var boards = await _context.Boards
-                .Include(b => b.Project)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (boards == null)
-            {
-                return NotFound();
-            }
+           var currentBoard = await _context.Boards.AsNoTracking().Include(b => b.Project)
+                .SingleOrDefaultAsync(b => b.ID == id)
+                ?? throw new Exception("Could not find current board");
 
-            return View(boards);
+            var boardViewModel = new BoardsViewModel
+            {
+                ID = currentBoard.ID,
+                Name = currentBoard.Name,
+                ProjectID = currentBoard.ProjectID,
+                Description = currentBoard.Description,
+                Color = currentBoard.Color,
+                CreatedDate = currentBoard.CreatedDate,
+                ClosedDate = currentBoard.ClosedDate,
+                ProjectName = currentBoard.Project.Name,
+            };
+            return View(boardViewModel);
         }
 
         // GET: Boards/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            //todo dropdown not working correctly
-            ViewData["ProjectID"] = new SelectList(_context.Projects.Select(p => new {
-                Text = p.Name,
-                Value = p.ID
-            }));
-            return View();
-        }
+            var boardViewModel = new BoardsViewModel
+            {
+                PotentialProjects = await _context.Projects.AsNoTracking()
+                .Select(p => new SelectListItem
+                {
+                    Text = p.Name,
+                    Value = p.ID.ToString()
+                }).ToListAsync()
+            };
+            return View(boardViewModel);
+            }
 
-        // POST: Boards/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Guid ProjectID, string Name, String Description, string Color, DateTime CreatedDate, DateTime? ClosedDate)
+        public async Task<IActionResult> Create(Guid ProjectID, string Name, String Description, string Color)
         {
-            var boards = new Boards {
-                ID = Guid.NewGuid(),
-                Name = Name,
-                Description = Description,
-                Color = Color,
-                CreatedDate = CreatedDate,
-                ProjectID = ProjectID,
-                Project = _context.Projects.SingleOrDefault(p => p.ID == ProjectID) ?? throw new Exception("Project Could Not Be Found")
-            };
-
-            if (ModelState.IsValid)
+            try
             {
-                boards.ID = Guid.NewGuid();
+                var boards = new Boards
+                {
+                    ID = Guid.NewGuid(),
+                    Name = Name,
+                    Description = Description,
+                    Color = Color,
+                    CreatedDate = DateTime.UtcNow,
+                    ProjectID = ProjectID,
+                    Project = await _context.Projects.SingleOrDefaultAsync(p => p.ID == ProjectID) ?? throw new Exception("Project Could Not Be Found")
+                };
+
                 _context.Add(boards);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProjectID"] = new SelectList(_context.Projects.Select(p => new {
-                text = p.Name,
-                value = p.ID
-            }));
-            return View(new CreateBoardsViewModel());
+            catch
+            {
+                return View(new BoardsViewModel());
+            }
         }
 
         // GET: Boards/Edit/5
@@ -97,18 +117,35 @@ namespace TaskHelperWebApp.Controllers
                 return NotFound();
             }
 
-            var boards = await _context.Boards.FindAsync(id);
-            if (boards == null)
+            var board = await _context.Boards.Include(b => b.Project).SingleOrDefaultAsync(b => b.ID == id);
+            if (board == null)
             {
                 return NotFound();
             }
-            ViewData["ProjectID"] = new SelectList(_context.Projects, "ID", "ID", boards.ProjectID);
-            return View(boards);
+            
+            var potentialProjects = await _context.Projects.Where(p => p.ClosedDate == null)
+                .Select(p => new SelectListItem
+                {
+                    Text = p.Name,
+                    Value = p.ID.ToString()
+                }).ToListAsync();
+
+            var boardsViewModel = new BoardsViewModel
+            {
+                ID = id,
+                ProjectID = board.ProjectID,
+                Name = board.Name,
+                Description = board.Description,
+                Color = board.Color,
+                CreatedDate = board.CreatedDate,
+                ClosedDate = board.ClosedDate,
+                ProjectName = board.Project.Name,
+                PotentialProjects = potentialProjects
+            };
+            return View(boardsViewModel);
         }
 
         // POST: Boards/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("ID,ProjectID,Name,Description,Color,CreatedDate,ClosedDate")] Boards boards)

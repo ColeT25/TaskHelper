@@ -1,10 +1,10 @@
-@model IEnumerable<TaskHelperWebApp.Boards>
+@model IList<TaskHelperWebApp.ViewModels.BoardsViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Active Boards";
 }
 
-<h1>Index</h1>
+<h1>Active Boards</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,22 +13,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model[0].Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model[0].Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Color)
+                @Html.DisplayNameFor(model => model[0].Color)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
+                @Html.DisplayNameFor(model => model[0].CreatedDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClosedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Project)
+                @Html.DisplayNameFor(model => model[0].ProjectName)
             </th>
             <th></th>
         </tr>
@@ -49,10 +46,7 @@
                 @Html.DisplayFor(modelItem => item.CreatedDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ClosedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Project.ID)
+                @Html.DisplayFor(modelItem => item.ProjectName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |

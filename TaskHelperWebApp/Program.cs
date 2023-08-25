@@ -13,6 +13,8 @@ else if (builder.Environment.IsProduction()){
     options.UseSqlServer(Environment.GetEnvironmentVariable("SQLCONNSTR_TaskHelperDB") ?? throw new InvalidOperationException("Connection String Could Not Be Retrieved From Azure Environment Variable for TasksContext")));
 }
 
+//todo keep working on adding in memory db for service layer testing
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

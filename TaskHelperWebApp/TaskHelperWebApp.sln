@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskHelperWebApp", "TaskHelperWebApp.csproj", "{482C1E03-6965-47D0-83F9-25611DB6235D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskHelperTests", "..\TaskHelperTests\TaskHelperTests.csproj", "{05603260-BBB0-494A-8026-0741372AAE8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{482C1E03-6965-47D0-83F9-25611DB6235D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{482C1E03-6965-47D0-83F9-25611DB6235D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{482C1E03-6965-47D0-83F9-25611DB6235D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05603260-BBB0-494A-8026-0741372AAE8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05603260-BBB0-494A-8026-0741372AAE8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05603260-BBB0-494A-8026-0741372AAE8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05603260-BBB0-494A-8026-0741372AAE8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

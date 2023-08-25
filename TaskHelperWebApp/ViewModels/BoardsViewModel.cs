@@ -19,6 +19,8 @@ public class BoardsViewModel
     public string? ProjectName { get; set; } = String.Empty;
     public List<SelectListItem>? PotentialProjects { get; set; } = null;
 
+    public List<SelectListItem>? PotentialColors { get; set; } = null;
+
     public bool ModelIsComplete
     {
         get

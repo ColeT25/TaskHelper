@@ -1,4 +1,4 @@
-namespace TaskHelperWebApp.Models;
+namespace TaskHelperWebApp.ViewModels;
 
 public class ErrorViewModel
 {

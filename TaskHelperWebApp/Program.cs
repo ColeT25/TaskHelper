@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TaskHelperWebApp.Data;
+using TaskHelperWebApp.Services;
+using TaskHelperWebApp.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.IsDevelopment()){
@@ -13,6 +15,11 @@ else if (builder.Environment.IsProduction()){
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Adding services for business logic
+builder.Services.AddScoped<ITasksService, TasksService>();
+builder.Services.AddScoped<IBoardsService, BoardsService>();
+builder.Services.AddScoped<IProjectsService, ProjectsService>();
 
 var app = builder.Build();
 

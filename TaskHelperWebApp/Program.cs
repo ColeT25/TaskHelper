@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using TaskHelperWebApp.Data;
 using TaskHelperWebApp.Services;
 using TaskHelperWebApp.Services.Interfaces;
+using Microsoft.EntityFrameworkCore.InMemory;
 
 var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.IsDevelopment()){
@@ -12,8 +13,6 @@ else if (builder.Environment.IsProduction()){
     builder.Services.AddDbContext<TasksContext>(options =>
     options.UseSqlServer(Environment.GetEnvironmentVariable("SQLCONNSTR_TaskHelperDB") ?? throw new InvalidOperationException("Connection String Could Not Be Retrieved From Azure Environment Variable for TasksContext")));
 }
-
-//todo keep working on adding in memory db for service layer testing
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

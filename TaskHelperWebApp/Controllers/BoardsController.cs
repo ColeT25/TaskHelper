@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Build.Evaluation;
 using Microsoft.EntityFrameworkCore;
-using TaskHelperWebApp;
+using TaskHelperWebApp.Models;
 using TaskHelperWebApp.Data;
 using TaskHelperWebApp.ViewModels;
 

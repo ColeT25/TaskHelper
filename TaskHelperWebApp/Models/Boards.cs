@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace TaskHelperWebApp;
+namespace TaskHelperWebApp.Models;
 
 public class Boards
 {

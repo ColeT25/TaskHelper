@@ -1,8 +1,10 @@
-﻿namespace TaskHelperWebApp.Services.Interfaces
+﻿using TaskHelperWebApp.Models;
+
+namespace TaskHelperWebApp.Services.Interfaces
 {
     public interface IProjectsService
     {
-        public List<Projects> GetProjects(bool onlyActiveProjects);
+        public List<Projects> GetProjects(bool onlyActiveProjects = true);
         public Projects? GetProjectByID(Guid ID);
         public Projects? UpdateProject(Guid projectIDToUpdate, Projects newProject); //todo may not need to return projects
         public Projects? CreateProject(string name, string description);

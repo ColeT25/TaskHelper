@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using TaskHelperWebApp;
+using TaskHelperWebApp.Models;
 
 namespace TaskHelperWebApp.Data
 {
@@ -14,8 +14,8 @@ namespace TaskHelperWebApp.Data
         {
         }
 
-        public DbSet<TaskHelperWebApp.Tasks> Tasks { get; set; } = default!;
-        public DbSet<TaskHelperWebApp.Boards> Boards { get; set; } = default!;
-        public DbSet<TaskHelperWebApp.Projects> Projects { get; set; } = default!;
+        public DbSet<Tasks> Tasks { get; set; } = default!;
+        public DbSet<Boards> Boards { get; set; } = default!;
+        public DbSet<Projects> Projects { get; set; } = default!;
     }
 }

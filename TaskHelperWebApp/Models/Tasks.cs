@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TaskHelperWebApp;
+namespace TaskHelperWebApp.Models;
 
 public class Tasks
 {

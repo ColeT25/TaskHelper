@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using TaskHelperWebApp;
+using TaskHelperWebApp.Models;
 using TaskHelperWebApp.Data;
 
 namespace TaskHelperWebApp.Controllers
